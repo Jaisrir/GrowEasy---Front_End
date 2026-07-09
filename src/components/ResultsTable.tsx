@@ -57,7 +57,7 @@ export default function ResultsTable({
   records: LeadRecord[];
   onClear?: () => void;
 }) {
-  if (records.length === 0) return null;
+  const hasRecords = records.length > 0;
 
   return (
     <div className="rounded-2xl border shadow-sm mb-8 ge-animate-in overflow-hidden" style={{
@@ -75,17 +75,19 @@ export default function ResultsTable({
             <CheckCircle2 size={16} color="var(--ge-good)" />
           </div>
           <h2 className="text-base font-semibold" style={{ color: "var(--ge-ink)" }}>
-            Successfully Parsed Records
+            Parsed Records
           </h2>
         </div>
         <div className="flex items-center gap-3">
-          <span
-            className="text-xs font-medium px-2.5 py-1 rounded-full"
-            style={{ background: "var(--ge-good-bg)", color: "var(--ge-good)" }}
-          >
-            {records.length} record{records.length === 1 ? "" : "s"}
-          </span>
-          {onClear && (
+          {hasRecords && (
+            <span
+              className="text-xs font-medium px-2.5 py-1 rounded-full"
+              style={{ background: "var(--ge-good-bg)", color: "var(--ge-good)" }}
+            >
+              {records.length} record{records.length === 1 ? "" : "s"}
+            </span>
+          )}
+          {onClear && hasRecords && (
             <button
               onClick={onClear}
               className="p-1.5 rounded-lg transition-colors hover:bg-[var(--ge-bad-bg)]"
@@ -97,71 +99,76 @@ export default function ResultsTable({
         </div>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto ge-scroll">
-        <table className="w-full text-sm border-collapse">
-          <thead>
-            <tr style={{ background: "var(--ge-bg)" }}>
-              {COLUMNS.map((column) => (
-                <th
-                  key={column.key}
-                  className="whitespace-nowrap px-6 py-4 text-left font-semibold"
-                  style={{
-                    borderBottom: "1px solid var(--ge-line)",
-                    color: "var(--ge-ink-soft)",
-                    fontSize: "0.75rem",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.5px"
-                  }}
-                >
-                  {column.label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {records.map((record, index) => (
-              <tr
-                key={record.id ?? index}
-                className="transition-colors hover:bg-[var(--ge-bg)] border-b"
-                style={{ borderColor: "var(--ge-line)" }}
-              >
-                {COLUMNS.map((column) => {
-                  const value = record[column.key as keyof LeadRecord];
-                  const isStatus = column.key === "crm_status";
-                  
-                  return (
-                    <td
-                      key={column.key}
-                      className="whitespace-nowrap px-6 py-4"
-                      style={{ color: "var(--ge-ink)" }}
-                      title={typeof value === "string" && value.length > 50 ? value : ""}
-                    >
-                      {isStatus ? (
-                        <span
-                          className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
-                          style={{
-                            background: getStatusColor(String(value)),
-                            color: getStatusTextColor(String(value))
-                          }}
-                        >
-                          {getStatusLabel(String(value))}
-                        </span>
-                      ) : column.key === "created_at" ? (
-                        <span title={formatValue(value)}>
-                          {typeof value === "string" ? value.split("T")[0] : formatValue(value)}
-                        </span>
-                      ) : (
-                        formatValue(value)
-                      )}
-                    </td>
-                  );
-                })}
+      {hasRecords ? (
+        <div className="overflow-x-auto ge-scroll">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr style={{ background: "var(--ge-bg)" }}>
+                {COLUMNS.map((column) => (
+                  <th
+                    key={column.key}
+                    className="whitespace-nowrap px-6 py-4 text-left font-semibold"
+                    style={{
+                      borderBottom: "1px solid var(--ge-line)",
+                      color: "var(--ge-ink-soft)",
+                      fontSize: "0.75rem",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.5px"
+                    }}
+                  >
+                    {column.label}
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {records.map((record, index) => (
+                <tr
+                  key={record.id ?? index}
+                  className="transition-colors hover:bg-[var(--ge-bg)] border-b"
+                  style={{ borderColor: "var(--ge-line)" }}
+                >
+                  {COLUMNS.map((column) => {
+                    const value = record[column.key as keyof LeadRecord];
+                    const isStatus = column.key === "crm_status";
+
+                    return (
+                      <td
+                        key={column.key}
+                        className="whitespace-nowrap px-6 py-4"
+                        style={{ color: "var(--ge-ink)" }}
+                        title={typeof value === "string" && value.length > 50 ? value : ""}
+                      >
+                        {isStatus ? (
+                          <span
+                            className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                            style={{
+                              background: getStatusColor(String(value)),
+                              color: getStatusTextColor(String(value))
+                            }}
+                          >
+                            {getStatusLabel(String(value))}
+                          </span>
+                        ) : column.key === "created_at" ? (
+                          <span title={formatValue(value)}>
+                            {typeof value === "string" ? value.split("T")[0] : formatValue(value)}
+                          </span>
+                        ) : (
+                          formatValue(value)
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="px-6 py-10 text-center text-sm" style={{ color: "var(--ge-ink-soft)" }}>
+          No records yet. Import a CSV to see parsed leads here.
+        </div>
+      )}
     </div>
   );
 }

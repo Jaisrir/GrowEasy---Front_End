@@ -8,75 +8,11 @@ import ImportModal from "@/components/ImportModal";
 import { LeadRecord } from "@/lib/types";
 import { getLeads } from "@/lib/api";
 
-// Sample data for demonstration
-const SAMPLE_IMPORTED_RECORDS: LeadRecord[] = [
-  {
-    id: "sample-1",
-    name: "John Doe",
-    email: "john.doe@example.com",
-    mobile_without_country_code: "9876543210",
-    country_code: "+91",
-    company: "GrowEasy",
-    city: "Mumbai",
-    state: "Maharashtra",
-    country: "India",
-    crm_status: "GOOD_LEAD_FOLLOW_UP",
-    crm_note: "Client is asking to reschedule demo",
-    data_source: "",
-    created_at: "2026-05-13T14:20:48",
-  },
-  {
-    id: "sample-2",
-    name: "Sarah Johnson",
-    email: "sarah.johnson@example.com",
-    mobile_without_country_code: "9876543211",
-    country_code: "+91",
-    company: "Tech Solutions",
-    city: "Bangalore",
-    state: "Karnataka",
-    country: "India",
-    crm_status: "DID_NOT_CONNECT",
-    crm_note: "Person was busy, will try again next week",
-    data_source: "",
-    created_at: "2026-05-13T14:25:30",
-  },
-  {
-    id: "sample-3",
-    name: "Rajesh Patel",
-    email: "rajesh.patel@example.com",
-    mobile_without_country_code: "9876543212",
-    country_code: "+91",
-    company: "Startup Inc",
-    city: "Delhi",
-    state: "Delhi",
-    country: "India",
-    crm_status: "BAD_LEAD",
-    crm_note: "Not interested in our services",
-    data_source: "",
-    created_at: "2026-05-13T14:30:15",
-  },
-  {
-    id: "sample-4",
-    name: "Priya Singh",
-    email: "priya.singh@example.com",
-    mobile_without_country_code: "9876543213",
-    country_code: "+91",
-    company: "Enterprise Corp",
-    city: "Pune",
-    state: "Maharashtra",
-    country: "India",
-    crm_status: "SALE_DONE",
-    crm_note: "Deal closed, onboarding in progress",
-    data_source: "",
-    created_at: "2026-05-13T14:35:22",
-  },
-];
-
 export default function Home() {
   const [leads, setLeads] = useState<LeadRecord[]>([]);
   const [isLoadingLeads, setIsLoadingLeads] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
-  const [importedRecords, setImportedRecords] = useState<LeadRecord[]>(SAMPLE_IMPORTED_RECORDS);
+  const [importedRecords, setImportedRecords] = useState<LeadRecord[]>([]);
 
   // Load leads on mount
   const loadLeads = async () => {
@@ -111,7 +47,7 @@ export default function Home() {
           <div
             className="flex h-10 w-10 items-center justify-center rounded-lg font-bold text-lg"
             style={{
-              background: "var(--ge-brand)",
+              background: "#000000de",
               color: "#fff",
               boxShadow: "0 4px 12px rgba(255, 106, 69, 0.2)"
             }}
