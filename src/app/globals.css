@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+/*
+  These are our "crayon colors."
+  Instead of typing a color everywhere, we give it a name once,
+  here, and reuse the name everywhere else.
+*/
+:root {
+  --ge-bg: #f5f6f8;
+  --ge-surface: #ffffff;
+  --ge-ink: #14161f;
+  --ge-ink-soft: #6b7080;
+  --ge-line: #e6e8ee;
+  --ge-navy: #171a26;
+
+  --ge-brand: #ff6a45; /* the orange CTA color, like "Upload File" */
+  --ge-brand-hover: #ef5a35;
+  --ge-teal: #0e9f8e; /* accent used sparingly, e.g. active states */
+
+  --ge-good: #16a34a;
+  --ge-good-bg: #eafaf0;
+  --ge-bad: #dc2626;
+  --ge-bad-bg: #fdecec;
+  --ge-neutral: #6b7080;
+  --ge-neutral-bg: #eef0f4;
+  --ge-warn: #d97706;
+  --ge-warn-bg: #fef3e2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--ge-bg);
+  color: var(--ge-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto,
+    sans-serif;
+}
+
+/* A nicer scrollbar for our tables, so scrolling feels intentional */
+.ge-scroll::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.ge-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ge-scroll::-webkit-scrollbar-thumb {
+  background: #d7dae2;
+  border-radius: 999px;
+}
+.ge-scroll::-webkit-scrollbar-thumb:hover {
+  background: #b9bdca;
+}
+
+@keyframes ge-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ge-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ge-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes ge-pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.ge-animate-in {
+  animation: ge-fade-up 0.25s ease-out both;
+}
+
+.ge-animate-fade {
+  animation: ge-fade-in 0.25s ease-out both;
+}
+
+.ge-animate-slide {
+  animation: ge-slide-in 0.25s ease-out both;
+}
+
+.ge-pulse {
+  animation: ge-pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ge-animate-in,
+  .ge-animate-fade,
+  .ge-animate-slide,
+  .ge-pulse {
+    animation: none;
+  }
+}
+
+/* Smooth transitions */
+button {
+  transition: all 0.2s ease-out;
+}
+
+input,
+textarea,
+select {
+  transition: border-color 0.2s ease-out, background-color 0.2s ease-out;
+}
+
+/* Better focus states */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--ge-brand);
+  outline-offset: 2px;
+}
+
